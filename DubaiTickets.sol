@@ -23,7 +23,7 @@ contract EventTicket is ERC1155, Ownable {
     event EventCreated(uint256 id, string name, uint256 totalSupply, uint256 price);
     event TicketBought(address to, uint256 id, uint256 amount);
 
-    //Estructura
+    //Estructure
     struct Event {
         uint256 id;
         string name;
@@ -81,7 +81,7 @@ contract EventTicket is ERC1155, Ownable {
             revert InsufficientBalance();
         }
 
-        //Minteamos tokens
+        //Mint tokens
         _mint (msg.sender, id, amount,  "");
 
         
@@ -98,12 +98,12 @@ contract EventTicket is ERC1155, Ownable {
     }
 
 
-    //Transferir un ticket
+    //Transfer ticket
     function transferTickets (address to, uint256 id, uint256 amount) external {
         safeTransferFrom(msg.sender, to, id, amount, "");
     }
 
-    //Transferir varios tickets
+    // Transfer multiple tickets
     function transferTicketsBatch (address to, uint256[] memory ids, uint256[] memory amounts) external {
         safeBatchTransferFrom(msg.sender, to, ids, amounts, "");
     }
@@ -112,7 +112,7 @@ contract EventTicket is ERC1155, Ownable {
         return balanceOf(to, id);
     }
 
-    //funcion reembolso / devolver tickets
+    // Refund function / return tickets
     function refundTickets(uint256 id, uint256 amount) external {
         Event storage _event = events[id];
 
@@ -125,7 +125,7 @@ contract EventTicket is ERC1155, Ownable {
 
 
         uint256 refundAmount = _event.price * amount;
-        //Le devolvemos el dinero
+        // Refund the money
         payable(msg.sender).transfer(refundAmount);
 
         _event.availableTickets = _event.availableTickets+amount;
